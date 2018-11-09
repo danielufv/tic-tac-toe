@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Match;
+use App\Models\MainMatch;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -85,7 +86,8 @@ class MatchTest extends TestCase
      */
     public function testMakeMatchMethod()
     {
-        $data = Match::makeMatch();
+        $mainMatchId = factory(MainMatch::class)->create()->id;
+        $data = Match::makeMatch($mainMatchId);
         $match = Match::create($data);
 
         $this->assertInstanceOf(Match::class, $match);

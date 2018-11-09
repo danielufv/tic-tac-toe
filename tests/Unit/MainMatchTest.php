@@ -62,78 +62,104 @@ class MainMatchTest extends TestCase
 
     public function testCheckWinnerOne()
     {
-        Match::create(['winner' => Match::PLAYER_X]);
+        $mainMatch = factory(MainMatch::class)->create();
 
-        $winner = MainMatch::checkWinner();
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::PLAYER_X]);
 
-        $this->assertFalse($winner);
+        $winner = MainMatch::checkWinner($mainMatch->id);
 
-        Match::create(['winner' => Match::PLAYER_O]);
+        $this->assertEquals($winner, Match::EMPTY_POS);
 
-        $this->assertFalse($winner);
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::PLAYER_O]);
 
-        $thirdMatch = Match::create(['winner' => Match::PLAYER_X]);
+        $winner = MainMatch::checkWinner($mainMatch->id);
 
-        $this->assertEquals(Match::PLAYER_X, $thirdMatch);
+        $this->assertEquals($winner, Match::EMPTY_POS);
+
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::PLAYER_X]);
+
+        $winner = MainMatch::checkWinner($mainMatch->id);
+
+        $this->assertEquals($winner, Match::PLAYER_X);
     }
 
     public function testCheckWinnerTwo()
     {
-        Match::create(['winner' => Match::PLAYER_X]);
+        $mainMatch = factory(MainMatch::class)->create();
 
-        $winner = MainMatch::checkWinner();
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::PLAYER_X]);
 
-        $this->assertFalse($winner);
+        $winner = MainMatch::checkWinner($mainMatch->id);
 
-        Match::create(['winner' => Match::PLAYER_X]);
+        $this->assertEquals($winner, Match::EMPTY_POS);
 
-        $this->assertTrue($winner);
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::PLAYER_X]);
+
+        $winner = MainMatch::checkWinner($mainMatch->id);
+
+        $this->assertEquals($winner, Match::PLAYER_X);
     }
 
     public function testCheckWinnerThree()
     {
-        Match::create(['winner' => Match::PLAYER_X]);
+        $mainMatch = factory(MainMatch::class)->create();
 
-        $winner = MainMatch::checkWinner();
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::PLAYER_X]);
 
-        $this->assertFalse($winner);
+        $winner = MainMatch::checkWinner($mainMatch->id);
 
-        Match::create(['winner' => Match::EMPTY_POS]);
+        $this->assertEquals($winner, Match::EMPTY_POS);
 
-        $this->assertFalse($winner);
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::EMPTY_POS]);
 
-        Match::create(['winner' => Match::PLAYER_X]);
+        $winner = MainMatch::checkWinner($mainMatch->id);
 
-        $this->assertTrue($winner);
+        $this->assertEquals($winner, Match::EMPTY_POS);
+
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::PLAYER_X]);
+
+        $winner = MainMatch::checkWinner($mainMatch->id);
+
+        $this->assertEquals($winner, Match::PLAYER_X);
     }
 
     public function testCheckDrawOne()
     {
-        Match::create(['winner' => Match::EMPTY_POS]);
+        $mainMatch = factory(MainMatch::class)->create();
 
-        $winner = MainMatch::checkWinner();
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::EMPTY_POS]);
 
-        $this->assertFalse($winner);
+        $winner = MainMatch::checkWinner($mainMatch->id);
 
-        Match::create(['winner' => Match::EMPTY_POS]);
+        $this->assertEquals($winner, Match::EMPTY_POS);
 
-        $this->assertFalse($winner);
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::EMPTY_POS]);
+
+        $winner = MainMatch::checkWinner($mainMatch->id);
+
+        $this->assertEquals($winner, Match::EMPTY_POS);
     }
 
     public function testCheckDrawTwo()
     {
-        Match::create(['winner' => Match::EMPTY_POS]);
+        $mainMatch = factory(MainMatch::class)->create();
 
-        $winner = MainMatch::checkWinner();
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::EMPTY_POS]);
 
-        $this->assertFalse($winner);
+        $winner = MainMatch::checkWinner($mainMatch->id);
 
-        Match::create(['winner' => Match::PLAYER_O]);
+        $this->assertEquals($winner, Match::EMPTY_POS);
 
-        $this->assertFalse($winner);
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::PLAYER_O]);
 
-        Match::create(['winner' => Match::PLAYER_X]);
+        $winner = MainMatch::checkWinner($mainMatch->id);
 
-        $this->assertFalse($winner);
+        $this->assertEquals($winner, Match::EMPTY_POS);
+
+        Match::create(['main_match_id' => $mainMatch->id, 'name' => 'Match '.str_random(5), 'winner' => Match::PLAYER_X]);
+
+        $winner = MainMatch::checkWinner($mainMatch->id);
+
+        $this->assertEquals($winner, Match::EMPTY_POS);
     }
 }

@@ -28,8 +28,13 @@ class Match extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'next', 'winner', 'board'
+        'main_match_id', 'name', 'next', 'winner', 'board'
     ];
+
+    public function mainMatch()
+    {
+        return $this->belongsTo(MainMatch::class);
+    }
 
 
     // Auxiliary methods
@@ -37,12 +42,14 @@ class Match extends Model
     /**
      * Gets an initial match config
      *
+     * @param integer $mainMatchId
      * @return array
      */
-    public static function makeMatch()
+    public static function makeMatch($mainMatchId)
     {
         $board = Match::makeBoard();
         $data = [
+            'main_match_id' => $mainMatchId,
             'name' => 'Match '.str_random(5),
             'next' => Match::PLAYER_X,
             'winner' => 0,

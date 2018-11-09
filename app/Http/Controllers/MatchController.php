@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MainMatch;
 use App\Models\Match;
 use Illuminate\Support\Facades\Input;
 
@@ -64,7 +65,7 @@ class MatchController extends Controller
      */
     public function create()
     {
-        Match::create(Match::makeMatch());
+        MainMatch::createMatch(Match::PLAYER_X);
 
         return response()->json(Match::all());
     }

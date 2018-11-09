@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class MainMatch extends Model
 {
+    public function matches()
+    {
+        return $this->hasMany(Match::class);
+    }
+
     // Auxiliary methods
 
     public static function checkWinner($id)
@@ -42,8 +47,9 @@ class MainMatch extends Model
         $mainMatch = MainMatch::create([]);
         $board = Match::makeBoard();
 
-        $mainMatch->matches->create([
+        $mainMatch->matches()->create([
             'match_id' => $mainMatch->id,
+            'name' => 'Match '.str_random(5),
             'next' => $player === Match::PLAYER_X ? Match::PLAYER_O : Match::PLAYER_X,
             'board' => $board
         ]);
